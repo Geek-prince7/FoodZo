@@ -7,7 +7,10 @@ const optionsSchema=new mongoose.Schema({
     },
     full:{
         type:String
-    }
+    },
+    small: String,
+    medium: String,
+    large: String,
 })
 
 const itemSchema=new mongoose.Schema({
