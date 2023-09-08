@@ -4,6 +4,7 @@ const Item=require('../model/food_items')
 const User=require('../model/User')
 const router=express.Router()
 const {body, validationResult}=require('express-validator')
+const jwt=require('jsonwebtoken')
 
 
 
@@ -70,13 +71,34 @@ router.post('/user/create',body('email','incorrect email').isEmail(),body('passw
         })
         
     } catch (error) {
-        return resp.status(200).json({
+        return resp.status(500).json({
             code:1001,
             message:'failed',
             // data:user
         })
         
     }
+})
+
+router.post('/user/login',async(req,resp)=>{
+    try {
+        let user=await User.findOne({email:req.body.email})
+        if(!user || user.password!==req.body.password){
+            return resp.status(403).json({
+                code:1001,
+                message:"invalid username/password"
+            })
+        }
+        
+        
+    } catch (error) {
+        return resp.status(500).json({
+            code:1001,
+            message:"internal server error"
+        })
+        
+    }
+
 })
 
 

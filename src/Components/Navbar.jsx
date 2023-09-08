@@ -22,8 +22,11 @@ const Navbar = () => {
           <Link className="nav-link" to="/login">Login</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link disabled" to="/" tabindex="-1" aria-disabled="true">Disabled</Link>
+          <Link className="nav-link" to="/createuser">SignUp</Link>
         </li>
+        {/* <li className="nav-item">
+          <Link className="nav-link disabled" to="/" tabindex="-1" aria-disabled="true">Disabled</Link>
+        </li> */}
       </ul>
     </div>
   </div>
