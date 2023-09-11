@@ -5,6 +5,7 @@ const User=require('../model/User')
 const router=express.Router()
 const {body, validationResult}=require('express-validator')
 const jwt=require('jsonwebtoken')
+const passport=require('passport')
 
 
 
@@ -12,7 +13,7 @@ router.get('/',(req,resp)=>{
     resp.status(200).json({msg:'hi'})
 })
 
-router.post('/category/add',async(req,resp)=>{
+router.post('/category/add',passport.authenticate('jwt',{session:false}),async(req,resp)=>{
     try{
         let category=await Category.create(req.query);
         return resp.status(200).json({
@@ -89,9 +90,17 @@ router.post('/user/login',async(req,resp)=>{
                 message:"invalid username/password"
             })
         }
+        return resp.status(200).json({
+            code:1000,
+            message:'success | keep your token',
+            data:{
+                token:jwt.sign(user.toJSON(),'foodzo11',{expiresIn:1000*60*60,subject:user.id})
+            }
+        })
         
         
     } catch (error) {
+        console.log(error)
         return resp.status(500).json({
             code:1001,
             message:"internal server error"

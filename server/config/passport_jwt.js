@@ -11,7 +11,7 @@ const opts={
 
 passport.use(new strategy(opts,async (payload,done)=>{
     try {
-        let user=await User.findById(payload)
+        let user=await User.findById(payload.sub)
         if(user){
             return done(null,user);
         }
