@@ -143,4 +143,23 @@ router.get('/items',async(req,resp)=>{
     }
 })
 
+router.get('/categories',async(req,resp)=>{
+    try {
+        let data=await Category.find()
+        return resp.status(200).json({
+            code:1000,
+            message:'success',
+            data:data
+        })
+        
+    } catch (error) {
+        return resp.status(500).json({
+            code:1001,
+            message:'internal server error',
+            // data:data
+        })
+        
+    }
+})
+
 module.exports=router
