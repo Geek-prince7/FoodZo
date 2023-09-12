@@ -111,4 +111,36 @@ router.post('/user/login',async(req,resp)=>{
 })
 
 
+router.get('/items',async(req,resp)=>{
+    try {
+        // TODO: add filters
+        let filters={}
+        let cat=req.query.category
+        console.log(cat)
+        let category=[]
+        if (cat !=null && cat!=undefined ){
+            category=await Category.findOne({CategoryName:cat})
+        }
+        if(category!=undefined && category!=null && Object.keys(category).length>0){
+            filters.CategoryName=category
+        }
+        
+        let data=await Item.find(filters).populate('CategoryName')
+        return resp.status(200).json({
+            code:1000,
+            message:'success',
+            data:data
+        })
+        
+    } catch (error) {
+        console.log(error)
+        return resp.status(500).json({
+            code:1001,
+            message:'server error'
+            // data:data
+        })
+        
+    }
+})
+
 module.exports=router
